@@ -2,7 +2,10 @@ package com.kuang.springcloud.controller;
 
 import com.kuang.springcloud.pojo.Dept;
 import com.kuang.springcloud.service.DeptService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -20,9 +23,15 @@ import java.util.List;
 public class DeptController {
     @Autowired
     private DeptService deptService;
+    /**
+     * 获取eureka配置信息
+     */
+    @Autowired
+    private DiscoveryClient client;
 
     /**
      * 添加部门（Post请求）
+     *
      * @param dept
      * @return
      */
@@ -33,6 +42,7 @@ public class DeptController {
 
     /**
      * 根据id查询部门
+     *
      * @param id
      * @return
      */
@@ -43,11 +53,33 @@ public class DeptController {
 
     /**
      * 获取所有部门
+     *
      * @return
      */
     @GetMapping("/dept/list")
     public String queryAll() {
-        System.out.println("deptService.queryAll()22222222222"+deptService.queryAll().getClass().toString());
-         return Arrays.toString(deptService.queryAll().toArray());
+        System.out.println("deptService.queryAll()22222222222" + deptService.queryAll().getClass().toString());
+        return Arrays.toString(deptService.queryAll().toArray());
+    }
+
+    /**
+     * 注册进来的微服务，获取关键信息
+     */
+    @GetMapping("/dept/discovery")
+    public Object discovery() {
+        //    获取微服务列表清单
+        List<String> services = client.getServices();
+        System.out.println("services-------------:" + services);
+        //    获取具体微服务信息
+        final List<ServiceInstance> instances = client.getInstances("SPRINGCLOUD-PROVIDER-DEPT");
+        for (ServiceInstance instance : instances) {
+            System.out.println(
+                    instance.getHost() + "\t" +
+                            instance.getPort() + "\t" +
+                            instance.getUri() + "\t" +
+                            instance.getServiceId() + "\t"
+            );
+        }
+        return this.client;
     }
 }
