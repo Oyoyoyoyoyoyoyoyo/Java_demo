@@ -1,2 +1,3 @@
 # springcloud项目学习demo
-### 学习视频（狂神说）[dd]
+### 视频资源
+* [狂神说](https://www.bilibili.com/video/BV1jJ411S7xr)
