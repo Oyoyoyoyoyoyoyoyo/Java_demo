@@ -31,12 +31,12 @@ public class ConfigBean {
         return new RestTemplate();
     }
 
-    /**
-     * ribbon负载均衡 随机模式
-     * @return
-     */
-    @Bean
-    public IRule myRule(){
-        return new RandomRule();
-    }
+    // /**
+    //  * ribbon负载均衡 随机模式
+    //  * @return
+    //  */
+    // @Bean
+    // public IRule myRule(){
+    //     return new RandomRule();
+    // }
 }
