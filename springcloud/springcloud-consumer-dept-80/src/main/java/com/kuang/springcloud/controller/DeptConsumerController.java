@@ -33,6 +33,7 @@ public class DeptConsumerController {
     }
     @GetMapping("/consumer/dept/get/{id}")
     public String get(@PathVariable("id") Long id){
+        System.out.println("------------------"+id);
         return restTemplate.getForObject(REST_URL_PREFIX + "/dept/get/" + id, String.class);
     }
     @GetMapping("/consumer/dept/list")
